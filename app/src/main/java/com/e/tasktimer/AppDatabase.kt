@@ -14,13 +14,13 @@ private const val TAG = "AppDatabase"
 private const val DATABASE_NAME = "TaskTimer.db"
 private const val DATABASE_VERSION = 1
 
-internal class AppDatabase constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+internal class AppDatabase private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     init {
         Log.d(TAG, "AppDatabase: initialising")
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
+    override fun onCreate(db: SQLiteDatabase) {
         //CREATE TABLE Tasks(_id integer primary key not null, Name text not null, Description text, SortOrder integer);
         Log.d(TAG, "onCreate: starts")
         val sSQL = """create table ${TasksContract.TABLE_NAME} (
@@ -30,9 +30,22 @@ internal class AppDatabase constructor(context: Context) : SQLiteOpenHelper(cont
             |${TasksContract.Columns.TASK_SORT_ORDER} integer);
         """.trimMargin().replaceIndent(" ")
         Log.d(TAG, sSQL)
+        db.execSQL(sSQL) //?でnullを解決するより、関数の引数をnon-nullにする方が安全。
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         TODO("Not yet implemented")
     }
+
+    companion object : SingletonHolder<AppDatabase, Context>(::AppDatabase)
+
+//    companion object {
+//        @Volatile
+//        private var instance: AppDatabase? = null
+//
+//        fun getInstance(context: Context): AppDatabase =
+//            instance ?: synchronized(this) {
+//                instance ?: AppDatabase(context).also { instance = it }
+//            }
+//    }
 }
