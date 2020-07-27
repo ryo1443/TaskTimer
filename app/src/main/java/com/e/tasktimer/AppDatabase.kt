@@ -9,6 +9,7 @@ import android.util.Log
  * このアプリのBasicとなるdatabaseクラス
  * このクラスを使うべき唯一のクラスは、 [AppProvide].
  */
+
 private const val TAG = "AppDatabase"
 
 private const val DATABASE_NAME = "TaskTimer.db"
@@ -34,7 +35,13 @@ internal class AppDatabase private constructor(context: Context) : SQLiteOpenHel
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        Log.d(TAG, "onUpgrade: starts")
+        when(oldVersion) {
+            1 -> {
+                //upgrade logic from v1
+            }
+            else -> throw IllegalStateException("onUpgrade() with unknown newVersion: $newVersion")
+        }
     }
 
     companion object : SingletonHolder<AppDatabase, Context>(::AppDatabase)
