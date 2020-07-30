@@ -13,7 +13,7 @@ import android.util.Log
  */
 private const val TAG = "AppProvider"
 
-private val CONTENT_AUTHORITY = "com.e.tasktimer.tasktimer.provider" //uri
+const val CONTENT_AUTHORITY = "com.e.tasktimer.provider" //uri
 
 private const val TASKS = 100
 private const val TASKS_ID = 101
@@ -55,7 +55,7 @@ class AppProvider: ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-
+        TODO()
     }
 
     override fun query(
@@ -99,7 +99,7 @@ class AppProvider: ContentProvider() {
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
 
-        val db = AppDatabase.getInstance(context).readableDatabase
+        val db = AppDatabase.getInstance(context!!).readableDatabase
         val cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder)
         Log.d(TAG, "query: rows in returned cursor = ${cursor.count}") // TODO remove this line
 
