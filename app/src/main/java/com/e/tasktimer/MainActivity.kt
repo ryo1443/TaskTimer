@@ -17,33 +17,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        val appDatabase = AppDatabase.getInstance(this)
-        val db = appDatabase.readableDatabase
+        val projection = arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
+        val sortColumn = TasksContract.Columns.TASK_SORT_ORDER
 
-        val cursor = db.rawQuery("select * from Tasks", null)
+        val cursor = contentResolver.query(TasksContract.CONTENT_URI,
+                projection,
+                null,
+                null,
+                sortColumn)
         Log.d(TAG, "*********************************")
         cursor.use {
-            while (it.moveToNext()) {
-                //cycle through all records
-                with(cursor) {
-                    val id = getLong(0)
-                    val name = getString(1)
-                    val description = getString(2)
-                    val sortOrder = getString(3)
-                    val result = "ID: $id, Name: $name, descrioption: $description, sortOrder: $sortOrder"
-                    Log.d(TAG, "onCreate: reading data $result")
+            if (it != null) {
+                while (it.moveToNext()) {
+                    //cycle through all records
+                    with(cursor) {
+//                        val id = this!!.getLong(0)
+                        val name = getString(0)
+//                        val description = getString()
+                        val sortOrder = getString(1)
+                        val result = "Name: $name, sortOrder: $sortOrder"
+                        Log.d(TAG, "onCreate: reading data $result")
+                    }
                 }
             }
         }
 
         Log.d(TAG, "*********************************")
-
-
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
