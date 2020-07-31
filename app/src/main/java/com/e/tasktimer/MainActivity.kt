@@ -1,5 +1,6 @@
 package com.e.tasktimer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,13 +21,13 @@ class MainActivity : AppCompatActivity() {
         val projection = arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
         val sortColumn = TasksContract.Columns.TASK_SORT_ORDER
 
-        val cursor = contentResolver.query(TasksContract.CONTENT_URI,
+        val cursor = contentResolver.query(TasksContract.buildUriFromId(2),
                 projection,
                 null,
                 null,
                 sortColumn)
         Log.d(TAG, "*********************************")
-        cursor.use {
+        cursor?.use {
             if (it != null) {
                 while (it.moveToNext()) {
                     //cycle through all records
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 //                        val id = this!!.getLong(0)
                         val name = getString(0)
 //                        val description = getString()
-                        val sortOrder = getString(1)
+                        val sortOrder = getInt(1)
                         val result = "Name: $name, sortOrder: $sortOrder"
                         Log.d(TAG, "onCreate: reading data $result")
                     }
