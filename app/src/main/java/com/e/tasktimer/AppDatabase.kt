@@ -12,7 +12,7 @@ import android.util.Log
 
 private const val TAG = "AppDatabase"
 
-private const val DATABASE_NAME = "TaskTimer.db"
+private const val DATABASE_NAME = "tasktimer.db"
 private const val DATABASE_VERSION = 1
 
 internal class AppDatabase private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

@@ -1,6 +1,7 @@
 package com.e.tasktimer
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        testInsert()
 
         val projection = arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
         val sortColumn = TasksContract.Columns.TASK_SORT_ORDER
@@ -43,6 +46,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "*********************************")
+    }
+
+    private fun testInsert() {
+        val values = ContentValues().apply {
+            put(TasksContract.Columns.TASK_NAME, "New Task1")
+            put(TasksContract.Columns.TASK_DESCRIPTION, "Description 1")
+            put(TasksContract.Columns.TASK_SORT_ORDER, 2)
+        }
+
+        val uri = contentResolver.insert(TasksContract.CONTENT_URI, values)
+        Log.d(TAG, "New row id (in uri) is $uri")
+        Log.d(TAG, "id (in uri) is ${uri?.let { TasksContract.getId(it) }}")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
