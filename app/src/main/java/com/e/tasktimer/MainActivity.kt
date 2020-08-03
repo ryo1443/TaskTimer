@@ -1,6 +1,7 @@
 package com.e.tasktimer
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,32 +19,45 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        testInsert()
+
         val projection = arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
         val sortColumn = TasksContract.Columns.TASK_SORT_ORDER
 
-        val cursor = contentResolver.query(TasksContract.buildUriFromId(2),
-                projection,
+//        val cursor = contentResolver.query(TasksContract.buildUriFromId(2),
+        val cursor = contentResolver.query(TasksContract.CONTENT_URI,
+                null,
                 null,
                 null,
                 sortColumn)
         Log.d(TAG, "*********************************")
         cursor?.use {
-            if (it != null) {
-                while (it.moveToNext()) {
-                    //cycle through all records
-                    with(cursor) {
-//                        val id = this!!.getLong(0)
-                        val name = getString(0)
-//                        val description = getString()
-                        val sortOrder = getInt(1)
-                        val result = "Name: $name, sortOrder: $sortOrder"
-                        Log.d(TAG, "onCreate: reading data $result")
-                    }
+            while (it.moveToNext()) {
+                //cycle through all records
+                with(cursor) {
+                    val id = this.getLong(0)
+                    val name = getString(1)
+                    val description = getString(2)
+                    val sortOrder = getInt(3)
+                    val result = "ID: $id, Name: $name, Description: $description, sortOrder: $sortOrder"
+                    Log.d(TAG, "onCreate: reading data $result")
                 }
             }
         }
 
         Log.d(TAG, "*********************************")
+    }
+
+    private fun testInsert() {
+        val values = ContentValues().apply {
+            put(TasksContract.Columns.TASK_NAME, "New Task1")
+            put(TasksContract.Columns.TASK_DESCRIPTION, "Description 1")
+            put(TasksContract.Columns.TASK_SORT_ORDER, 2)
+        }
+
+        val uri = contentResolver.insert(TasksContract.CONTENT_URI, values)
+        Log.d(TAG, "New row id (in uri) is $uri")
+        Log.d(TAG, "id (in uri) is ${uri?.let { TasksContract.getId(it) }}")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
