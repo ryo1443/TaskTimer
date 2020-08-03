@@ -1,11 +1,8 @@
 package com.e.tasktimer
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -19,17 +16,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        testInsert()
+//        testInsert()
+//        testUpdate()
+//        testUpdateTwo()
+//        testDelete()
+        testDeleteTwo()
 
-        val projection = arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
+        val projection =
+            arrayOf(TasksContract.Columns.TASK_NAME, TasksContract.Columns.TASK_SORT_ORDER)
         val sortColumn = TasksContract.Columns.TASK_SORT_ORDER
 
 //        val cursor = contentResolver.query(TasksContract.buildUriFromId(2),
-        val cursor = contentResolver.query(TasksContract.CONTENT_URI,
-                null,
-                null,
-                null,
-                sortColumn)
+        val cursor = contentResolver.query(
+            TasksContract.CONTENT_URI,
+            null,
+            null,
+            null,
+            sortColumn
+        )
         Log.d(TAG, "*********************************")
         cursor?.use {
             while (it.moveToNext()) {
@@ -39,13 +43,60 @@ class MainActivity : AppCompatActivity() {
                     val name = getString(1)
                     val description = getString(2)
                     val sortOrder = getInt(3)
-                    val result = "ID: $id, Name: $name, Description: $description, sortOrder: $sortOrder"
+                    val result =
+                        "ID: $id, Name: $name, Description: $description, sortOrder: $sortOrder"
                     Log.d(TAG, "onCreate: reading data $result")
                 }
             }
         }
 
         Log.d(TAG, "*********************************")
+    }
+
+    private fun testUpdateTwo() {
+        val values = ContentValues().apply {
+            put(TasksContract.Columns.TASK_DESCRIPTION, "Complete")
+            put(TasksContract.Columns.TASK_SORT_ORDER, 99)
+        }
+
+        val selection = TasksContract.Columns.TASK_SORT_ORDER + " = ?"
+        val selectionArgs = arrayOf("99")
+
+//        val taskUri = TasksContract.buildUriFromId(1)
+        val rowsAffected = contentResolver.update(TasksContract.CONTENT_URI, values, selection, selectionArgs)
+
+        Log.d(TAG, "Number of updated is $rowsAffected")
+    }
+
+    private fun testDelete() {
+
+        val taskUri = TasksContract.buildUriFromId(1)
+        val rowsAffected = contentResolver.delete(taskUri, null, null)
+        Log.d(TAG, "Number of updated is $rowsAffected")
+    }
+
+    private fun testDeleteTwo() {
+
+        val selection = TasksContract.Columns.TASK_DESCRIPTION + " = ?"
+        val selectionArgs = arrayOf("For deletion")
+
+//        val taskUri = TasksContract.buildUriFromId(1)
+        val rowsAffected = contentResolver.delete(TasksContract.CONTENT_URI, selection, selectionArgs)
+
+        Log.d(TAG, "Number of updated is $rowsAffected")
+    }
+
+    private fun testUpdate() {
+        val values = ContentValues().apply {
+            put(TasksContract.Columns.TASK_NAME, "Content Provider")
+            put(TasksContract.Columns.TASK_DESCRIPTION, "Record content provider videos")
+            put(TasksContract.Columns.TASK_SORT_ORDER, 2)
+        }
+
+        val taskUri = TasksContract.buildUriFromId(1)
+        val rowsAffected = contentResolver.update(taskUri, values, null, null)
+
+        Log.d(TAG, "Number of updated is $rowsAffected")
     }
 
     private fun testInsert() {
@@ -71,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.menumain_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/til_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="101dp"
+        tools:text="TaskTimer Application" />
+
+    <TextView
+        android:id="@+id/til_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/design_default_color_on_secondary"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="178dp"
+        tools:text="Write course videos and for the TaskTimer Application" />
+
+    <ImageView
+        android:id="@+id/til_edit"
+        android:layout_width="79dp"
+        android:layout_height="88dp"
+        android:contentDescription="@string/edit_button_description"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="245dp" />
+
+    <ImageView
+        android:id="@+id/til_delete"
+        android:layout_width="91dp"
+        android:layout_height="88dp"
+        android:contentDescription="@string/delete_button_description"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        tools:layout_editor_absoluteX="160dp"
+        tools:layout_editor_absoluteY="365dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
