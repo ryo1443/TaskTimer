@@ -76,7 +76,7 @@ class AddEditFragment : Fragment() {
          * @return A new instance of fragment AddEditFragment.
          */
         @JvmStatic
-        fun newInstance(task: Task) =
+        fun newInstance(task: Task?) =
             AddEditFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_TASK, task)
