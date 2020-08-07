@@ -76,11 +76,57 @@ class AddEditFragment : Fragment() {
          * @return A new instance of fragment AddEditFragment.
          */
         @JvmStatic
-        fun newInstance(task: Task) =
+        fun newInstance(task: Task?) =
             AddEditFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_TASK, task)
                 }
             }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: called")
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewStateRestored: called")
+        super.onViewStateRestored(savedInstanceState)
+    }
+
+    override fun onStart() {
+        Log.d(TAG, "onStart: called")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume: called")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause: called")
+        super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d(TAG, "onSaveInstanceState: called")
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "onStop: called")
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        Log.d(TAG, "onDestroyView: called")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy: called")
+        super.onDestroy()
+    }
+
 }
