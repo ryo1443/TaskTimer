@@ -2,8 +2,6 @@ package com.e.tasktimer
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -103,7 +101,7 @@ class MainActivity() : AppCompatActivity(), AddEditFragment.OnSaveClicked {
         super.onStart()
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         Log.d(TAG, "onRestoreInstanceState: called")
         super.onRestoreInstanceState(savedInstanceState)
     }
